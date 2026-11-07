@@ -1,0 +1,164 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&display=swap');
+:root{
+    --primary: #1967D2;
+    --secondary: #F4F4F4;
+    --button: #4285F4;
+    --text: #242424;
+    --border: #DADCE0;
+    --info-text: #5F6368;
+    font-family: 'Google Sans Flex', sans-serif;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    font-optical-sizing: auto;
+}
+* {
+  font-family: inherit;
+}
+body{
+    width: 1440px;
+    overflow-x: hidden;
+}
+.dashboard-container {
+    padding: 0 64px;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.dashboard {
+    display: flex;
+    justify-content: space-between;
+    min-height: calc(100vh - 80px);
+    box-sizing: border-box;
+    padding-top: 80px;
+}
+
+.dashboard-left {
+    display: flex;
+    width: 50%;
+    justify-content: start;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 28px;
+}
+
+.dashboard-right {
+    display: flex;
+    flex: 1;
+}
+
+.dashboard-right img {
+    width: 100%;
+    max-width: 620px;
+    height: auto;
+    object-fit: contain;
+}
+.dashboard-left p {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text);
+    margin: 0;
+}
+.dashboard-left .title{
+    font-size: 80px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 1rem 0 0 0;
+    gap: 0px;
+    padding: 0;
+    line-height: 0.5;
+}
+.dashboard-left .titlebottom{
+    font-size: 80px;
+    font-weight: 600;
+    color: var(--primary);
+    margin: 0;
+    padding: 0;
+    gap: 0px;
+}
+.dashboard-left .deskripsi-hero{
+    font-size: 21px;
+    font-weight: 400;
+    color : var(--info-text);
+}
+.dashboard-left .button-container {
+    display: flex;
+    gap: 16px;
+    width: 100%;
+}
+.button-container .button {
+    padding: 12px 24px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-size: 16px;
+    font-weight: 500;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: white;
+    color: var(--primary);
+    transition: all 0.3s ease;
+
+}
+.button-arrow img {
+    display: none;
+}
+
+.button-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    width: 18px;
+    height: 18px;
+    background-color: #1967D2;
+    mask: url("../../GDGOC_Frontend/src/assets/arrow.svg") center / contain no-repeat;
+    -webkit-mask: url("../../GDGOC_Frontend/src/assets/arrow.svg") center / contain no-repeat;
+}
+.button-container .button:hover {
+    background-color: var(--button);
+    color: white;
+}
+.dashboard-left .little{
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--info-text);
+}
+.info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.info img {
+  width: 7px;
+  object-fit: contain;
+}
+
+/* Description Span */
+.deskripsi-hero span {
+  font-weight: 700;
+  color: var(--info-text);
+}
+
+/* Button Arrow */
+.button-arrow {
+  display: inline-block;
+  margin-left: 10px;
+}
+.button:hover .button-arrow {
+    background-color: #FFFFFF;
+}
+
+.button:hover .button-arrow img {
+    filter: brightness(0) invert(1);
+}
+/* Little + Community Colors */
+.little {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.little img {
+  width: 64px;
+}
