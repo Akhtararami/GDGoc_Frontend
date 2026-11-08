@@ -3,10 +3,21 @@ import Navbar from "../component/navbar";
 import { ContactHero, ContactTopics, ContactForm, ContactGuidance } from "../component/ContactPages/contactSections";
 import CtaBanner from "../component/LandingPages/ctaBanner";
 import Footer from "../component/footer";
+import { useFetch } from "../hooks/useFetch";
+import { getInquiryCategories } from "../services/api";
 import "../component/ContactPages/contact.css";
 
 function Contact() {
-    const [activeTopic, setActiveTopic] = useState("joining");
+    // Mengambil kategori formulir kontak dari GET /inquiry-categories
+    const { data: rawCategories, loading, error, refetch } = useFetch(getInquiryCategories);
+    const categories = Array.isArray(rawCategories) ? rawCategories : [];
+
+    const [selectedTopic, setSelectedTopic] = useState("joining-learning");
+
+    // Tentukan activeTopic: gunakan pilihan pengguna, atau fallback ke kategori pertama
+    const activeTopic = categories.length > 0 && !categories.some((c) => c.id === selectedTopic)
+        ? categories[0].id
+        : selectedTopic;
 
     return (
         <div className="contact-page">
@@ -16,15 +27,23 @@ function Contact() {
 
             <div className="contact-body">
                 <ContactTopics
+                    categories={categories}
+                    loading={loading}
+                    error={error}
+                    onRetry={refetch}
                     activeTopic={activeTopic}
-                    onSelect={setActiveTopic}
+                    onSelect={setSelectedTopic}
                 />
-                <ContactForm activeTopic={activeTopic} />
+                <ContactForm
+                    categories={categories}
+                    activeTopic={activeTopic}
+                    onCategoryChange={setSelectedTopic}
+                />
             </div>
 
             <hr />
 
-            <ContactGuidance />
+            <ContactGuidance categories={categories} />
 
             <CtaBanner
                 buttonText="Explore the community"

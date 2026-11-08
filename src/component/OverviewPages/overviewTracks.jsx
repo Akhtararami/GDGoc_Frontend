@@ -1,43 +1,19 @@
 import React from "react";
 import Title from "../title";
 import TrackCard from "../LandingPages/Trackcard";
-import designOne from "../../assets/designone.svg";
-import designTwo from "../../assets/designtwo.svg";
-import designThree from "../../assets/designthree.svg";
+import { useFetch } from "../../hooks/useFetch";
+import { getTracks } from "../../services/api";
+import { mapTrackToCardProps } from "../../services/mappers";
+import { LoadingSkeleton, ErrorState, EmptyState } from "../common/StatusState";
 import "../../App.css";
 import "./overview.css";
 
-const tracks = [
-  {
-    image: designThree,
-    label: "EXPLORE THE WHY",
-    title: "Research & discovery",
-    description: "Ask better questions, understand people, and turn insight into a clear problem worth solving.",
-    category: "Problem framing · User research · Product thinking",
-    link: "/tracks/research",
-    bgColor: "#E8F0FE"
-  },
-  {
-    image: designOne,
-    label: "MAKE IT MEANINGFUL",
-    title: "Design & creativity",
-    description: "Translate ideas into thoughtful experiences, from a first sketch to a prototype people can use.",
-    category: "UI/UX · Visual storytelling · Prototyping",
-    link: "/tracks/design",
-    bgColor: "#FEF4D9"
-  },
-  {
-    image: designTwo,
-    label: "BRING IDEAS TO LIFE",
-    title: "Development",
-    description: "Learn the tools, write the code, and build useful things with people who enjoy figuring it out.",
-    category: "Web & mobile · Cloud · AI foundations",
-    link: "/tracks/development",
-    bgColor: "#E6F4EA"
-  }
-];
-
 function OverviewTracks() {
+  // Mengambil data track dari API GET /tracks
+  const { data: rawTracks, loading, error, refetch } = useFetch(getTracks);
+
+  const tracks = Array.isArray(rawTracks) ? rawTracks.map(mapTrackToCardProps) : [];
+
   return (
     <section className="overview-tracks" id="tracks">
       <Title
@@ -55,20 +31,40 @@ function OverviewTracks() {
         }
       />
 
-      <div className="container-cardtrack">
-        {tracks.map((track) => (
-          <TrackCard
-            key={track.title}
-            image={track.image}
-            label={track.label}
-            title={track.title}
-            description={track.description}
-            category={track.category}
-            link={track.link}
-            bgColor={track.bgColor}
-          />
-        ))}
-      </div>
+      {/* 1. Loading State */}
+      {loading && <LoadingSkeleton count={3} type="track" />}
+
+      {/* 2. Error State */}
+      {error && (
+        <ErrorState
+          title="Gagal memuat learning tracks"
+          message={error}
+          onRetry={refetch}
+        />
+      )}
+
+      {/* 3. Empty State */}
+      {!loading && !error && tracks.length === 0 && (
+        <EmptyState message="Belum ada track pembelajaran yang tersedia saat ini." />
+      )}
+
+      {/* 4. Success State */}
+      {!loading && !error && tracks.length > 0 && (
+        <div className="container-cardtrack">
+          {tracks.map((track) => (
+            <TrackCard
+              key={track.id || track.title}
+              image={track.image}
+              label={track.label}
+              title={track.title}
+              description={track.description}
+              category={track.category}
+              link={track.link}
+              bgColor={track.bgColor}
+            />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

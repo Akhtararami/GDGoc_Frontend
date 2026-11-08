@@ -4,8 +4,24 @@ import "./navbar.css";
 import logo from "../assets/logo.svg";
 import logoName from "../assets/logo-name.svg";
 import arrow from "../assets/arrow.svg";
+import { useFetch } from "../hooks/useFetch";
+import { getNavigation } from "../services/api";
 
 function Navbar() {
+  // Mengambil menu navigasi dinamis dari API GET /navigation
+  const { data: navItems } = useFetch(getNavigation);
+
+  const defaultLinks = [
+    { label: "Home", href: "/" },
+    { label: "Overview", href: "/overview" },
+    { label: "Contact", href: "/contact" }
+  ];
+
+  // Gunakan data dari API, saring rute yang aktif di project
+  const links = Array.isArray(navItems) && navItems.length > 0
+    ? navItems.filter((item) => item.href !== "/about")
+    : defaultLinks;
+
   return (
     <nav className="navbar">
       <div className="navbar-logo">
@@ -13,9 +29,13 @@ function Navbar() {
         <img src={logoName} alt="Logo Name" />
       </div>
       <ul className="navbar-links">
-        <li><NavLink to="/" end>Home</NavLink></li>
-        <li><NavLink to="/overview">Overview</NavLink></li>
-        <li><NavLink to="/contact">Contact</NavLink></li>
+        {links.map((link) => (
+          <li key={link.href}>
+            <NavLink to={link.href} end={link.href === "/"}>
+              {link.label}
+            </NavLink>
+          </li>
+        ))}
       </ul>
       <div className="navbar-button">
         <NavLink to="/overview">

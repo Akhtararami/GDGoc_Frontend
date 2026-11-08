@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import marker from "../../assets/marker.svg";
+import { ErrorState, EmptyState } from "../common/StatusState";
 import "../../App.css";
 import "./contact.css";
 
-const topics = [
-    {
-        id: "joining",
-        title: "Joining & learning",
-        sub: "Getting started, learning tracks, and participation",
+// Metadata ikon untuk masing-masing kategori inquiry
+const CATEGORY_ICONS = {
+    "joining-learning": {
         iconClass: "topic-icon-blue",
         icon: (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -16,10 +15,7 @@ const topics = [
             </svg>
         )
     },
-    {
-        id: "collaboration",
-        title: "Collaboration",
-        sub: "Community activities and shared ideas",
+    "collaboration": {
         iconClass: "topic-icon-green",
         icon: (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -27,10 +23,7 @@ const topics = [
             </svg>
         )
     },
-    {
-        id: "speaking",
-        title: "Speaking & sharing",
-        sub: "Workshops, knowledge sharing, and mentorship",
+    "speaking-sharing": {
         iconClass: "topic-icon-yellow",
         icon: (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -40,10 +33,7 @@ const topics = [
             </svg>
         )
     },
-    {
-        id: "general",
-        title: "General inquiry",
-        sub: "Anything else you'd like to ask",
+    "general-inquiry": {
         iconClass: "topic-icon-gray",
         icon: (
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -53,14 +43,7 @@ const topics = [
             </svg>
         )
     }
-];
-
-const categoryOptions = [
-    "Joining & learning",
-    "Collaboration",
-    "Speaking & sharing",
-    "General inquiry"
-];
+};
 
 function ContactHero() {
     return (
@@ -81,7 +64,7 @@ function ContactHero() {
     );
 }
 
-function ContactTopics({ activeTopic, onSelect }) {
+function ContactTopics({ categories = [], loading, error, onRetry, activeTopic, onSelect }) {
     return (
         <div className="contact-left">
             <div className="contact-topics-label">
@@ -89,25 +72,58 @@ function ContactTopics({ activeTopic, onSelect }) {
                 <p>Pick the closest topic in the form. We'll take it from there.</p>
             </div>
 
-            <div className="contact-topic-list">
-                {topics.map((topic) => (
-                    <button
-                        key={topic.id}
-                        type="button"
-                        className={`contact-topic-item ${activeTopic === topic.id ? "active" : ""}`}
-                        onClick={() => onSelect(topic.id)}
-                        aria-pressed={activeTopic === topic.id}
-                    >
-                        <span className={`contact-topic-icon ${topic.iconClass}`}>
-                            {topic.icon}
-                        </span>
-                        <span className="contact-topic-text">
-                            <span className="contact-topic-title">{topic.title}</span>
-                            <span className="contact-topic-sub">{topic.sub}</span>
-                        </span>
-                    </button>
-                ))}
-            </div>
+            {/* 1. Loading State */}
+            {loading && (
+                <div className="contact-topic-list" style={{ padding: 16 }}>
+                    <div className="api-skeleton-line" style={{ width: "100%", height: 48, marginBottom: 12 }}></div>
+                    <div className="api-skeleton-line" style={{ width: "100%", height: 48, marginBottom: 12 }}></div>
+                    <div className="api-skeleton-line" style={{ width: "100%", height: 48 }}></div>
+                </div>
+            )}
+
+            {/* 2. Error State */}
+            {error && (
+                <ErrorState
+                    title="Gagal memuat kategori pesan"
+                    message={error}
+                    onRetry={onRetry}
+                />
+            )}
+
+            {/* 3. Empty State */}
+            {!loading && !error && categories.length === 0 && (
+                <EmptyState message="Belum ada kategori pesan yang tersedia." />
+            )}
+
+            {/* 4. Success State */}
+            {!loading && !error && categories.length > 0 && (
+                <div className="contact-topic-list">
+                    {categories.map((topic) => {
+                        const meta = CATEGORY_ICONS[topic.id] || {
+                            iconClass: "topic-icon-gray",
+                            icon: <span>{topic.icon || "•"}</span>
+                        };
+
+                        return (
+                            <button
+                                key={topic.id}
+                                type="button"
+                                className={`contact-topic-item ${activeTopic === topic.id ? "active" : ""}`}
+                                onClick={() => onSelect(topic.id)}
+                                aria-pressed={activeTopic === topic.id}
+                            >
+                                <span className={`contact-topic-icon ${meta.iconClass}`}>
+                                    {meta.icon}
+                                </span>
+                                <span className="contact-topic-text">
+                                    <span className="contact-topic-title">{topic.label}</span>
+                                    <span className="contact-topic-sub">{topic.description}</span>
+                                </span>
+                            </button>
+                        );
+                    })}
+                </div>
+            )}
 
             <div className="contact-social-box">
                 <div className="title-top">
@@ -135,20 +151,20 @@ function ContactTopics({ activeTopic, onSelect }) {
     );
 }
 
-function ContactForm({ activeTopic }) {
+function ContactForm({ categories = [], activeTopic, onCategoryChange }) {
     const [formData, setFormData] = useState({
         firstName: "",
         lastName: "",
         email: "",
         organization: "",
-        category: activeTopic === "joining" ? "Joining & learning"
-            : activeTopic === "collaboration" ? "Collaboration"
-            : activeTopic === "speaking" ? "Speaking & sharing"
-            : "General inquiry",
         subject: "",
         message: "",
         consent: false
     });
+
+    // Kategori terpilih: sinkronkan dengan activeTopic dari panel kiri
+    const matchedCategory = categories.find((c) => c.id === activeTopic);
+    const selectedCategoryLabel = matchedCategory ? matchedCategory.label : (categories[0]?.label || "");
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -158,8 +174,19 @@ function ContactForm({ activeTopic }) {
         }));
     };
 
+    const handleSelectCategory = (e) => {
+        const selectedLabel = e.target.value;
+        if (onCategoryChange) {
+            const matched = categories.find((c) => c.label === selectedLabel);
+            if (matched) {
+                onCategoryChange(matched.id);
+            }
+        }
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
+        alert("Pesan Anda telah dikirim! Terima kasih telah menghubungi GDGoC UGM.");
     };
 
     return (
@@ -253,13 +280,19 @@ function ContactForm({ activeTopic }) {
                         id="category"
                         name="category"
                         className="form-select"
-                        value={formData.category}
-                        onChange={handleChange}
+                        value={selectedCategoryLabel}
+                        onChange={handleSelectCategory}
                         required
                     >
-                        {categoryOptions.map((opt) => (
-                            <option key={opt} value={opt}>{opt}</option>
-                        ))}
+                        {categories.length > 0 ? (
+                            categories.map((opt) => (
+                                <option key={opt.id || opt.label} value={opt.label}>
+                                    {opt.label}
+                                </option>
+                            ))
+                        ) : (
+                            <option value="">Memuat kategori...</option>
+                        )}
                     </select>
                 </div>
 
@@ -326,7 +359,13 @@ function ContactForm({ activeTopic }) {
     );
 }
 
-function ContactGuidance() {
+function ContactGuidance({ categories = [] }) {
+    // Gunakan guidance dari API kategori jika ada
+    const guidanceList = categories.filter((c) => c.guidance).map((c) => ({
+        title: `For ${c.label.toLowerCase()}`,
+        desc: c.guidance
+    }));
+
     return (
         <div className="contact-guidance">
             <div className="contact-guidance-left">
@@ -351,20 +390,29 @@ function ContactGuidance() {
             </div>
 
             <div className="contact-guidance-right">
-                <div className="guidance-item">
-                    <h3>For learning questions</h3>
-                    <p>Tell us which topic interests you and where you are in your learning journey.</p>
-                </div>
-
-                <div className="guidance-item">
-                    <h3>For collaborations</h3>
-                    <p>Share the idea, who it's for, and how you imagine working with the community.</p>
-                </div>
-
-                <div className="guidance-item">
-                    <h3>Not sure which category fits?</h3>
-                    <p>Choose General inquiry. A clear question is always a good starting point.</p>
-                </div>
+                {guidanceList.length > 0 ? (
+                    guidanceList.map((item, idx) => (
+                        <div className="guidance-item" key={idx}>
+                            <h3 style={{ textTransform: "capitalize" }}>{item.title}</h3>
+                            <p>{item.desc}</p>
+                        </div>
+                    ))
+                ) : (
+                    <>
+                        <div className="guidance-item">
+                            <h3>For learning questions</h3>
+                            <p>Tell us which topic interests you and where you are in your learning journey.</p>
+                        </div>
+                        <div className="guidance-item">
+                            <h3>For collaborations</h3>
+                            <p>Share the idea, who it's for, and how you imagine working with the community.</p>
+                        </div>
+                        <div className="guidance-item">
+                            <h3>Not sure which category fits?</h3>
+                            <p>Choose General inquiry. A clear question is always a good starting point.</p>
+                        </div>
+                    </>
+                )}
             </div>
         </div>
     );

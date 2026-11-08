@@ -1,6 +1,9 @@
 import React from "react";
 import Title from "../title";
 import LearningCard from "./learningCard";
+import { useFetch } from "../../hooks/useFetch";
+import { getFormats } from "../../services/api";
+import { LoadingSkeleton, ErrorState, EmptyState } from "../common/StatusState";
 import "../../App.css";
 
 const iconProps = {
@@ -38,28 +41,50 @@ const UsersIcon = (
     </svg>
 );
 
-const ways = [
-    {
+const SparkleIcon = (
+    <svg {...iconProps}>
+        <path d="m12 3 1.9 5.8a2 2 0 0 0 1.3 1.3L21 12l-5.8 1.9a2 2 0 0 0-1.3 1.3L12 21l-1.9-5.8a2 2 0 0 0-1.3-1.3L3 12l5.8-1.9a2 2 0 0 0 1.3-1.3Z" />
+    </svg>
+);
+
+// Map ikon dan subkategori berdasarkan ID format API
+const FORMAT_META = {
+    "study-groups": {
         icon: BookIcon,
-        title: "Study together",
-        description: "Work through foundations in peer learning sessions. Bring your questions; leave with a next step.",
         category: "Study groups & guided practice"
     },
-    {
+    "hands-on-workshops": {
         icon: CodeIcon,
-        title: "Try it hands-on",
-        description: "Explore a tool or technique in a workshop, then put it to work in a small experiment.",
         category: "Workshops & technical sessions"
     },
-    {
+    "project-circles": {
         icon: UsersIcon,
-        title: "Share the process",
-        description: "Exchange feedback, explain your decisions, and learn from different ways of thinking.",
         category: "Project circles & sharing sessions"
+    },
+    "knowledge-sharing": {
+        icon: SparkleIcon,
+        category: "Knowledge sharing & talks"
     }
-];
+};
 
 function LessWatching() {
+    // Ambil data format dari GET /formats
+    const { data: rawFormats, loading, error, refetch } = useFetch(getFormats);
+
+    const formats = Array.isArray(rawFormats) ? rawFormats.map((item) => {
+        const meta = FORMAT_META[item.id] || {
+            icon: UsersIcon,
+            category: "Community session"
+        };
+        return {
+            id: item.id,
+            icon: meta.icon,
+            title: item.name,
+            description: item.description,
+            category: meta.category
+        };
+    }) : [];
+
     return (
         <section className="less-watching">
             <div className="section-inner">
@@ -71,17 +96,37 @@ function LessWatching() {
                     }
                 />
 
-                <div className="learning-grid">
-                    {ways.map((way) => (
-                        <LearningCard
-                            key={way.title}
-                            icon={way.icon}
-                            title={way.title}
-                            description={way.description}
-                            category={way.category}
-                        />
-                    ))}
-                </div>
+                {/* 1. Loading State */}
+                {loading && <LoadingSkeleton count={3} type="learning" />}
+
+                {/* 2. Error State */}
+                {error && (
+                    <ErrorState
+                        title="Gagal memuat format pembelajaran"
+                        message={error}
+                        onRetry={refetch}
+                    />
+                )}
+
+                {/* 3. Empty State */}
+                {!loading && !error && formats.length === 0 && (
+                    <EmptyState message="Belum ada format kegiatan yang tersedia saat ini." />
+                )}
+
+                {/* 4. Success State */}
+                {!loading && !error && formats.length > 0 && (
+                    <div className="learning-grid">
+                        {formats.map((way) => (
+                            <LearningCard
+                                key={way.id || way.title}
+                                icon={way.icon}
+                                title={way.title}
+                                description={way.description}
+                                category={way.category}
+                            />
+                        ))}
+                    </div>
+                )}
             </div>
         </section>
     );
