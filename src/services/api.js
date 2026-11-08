@@ -1,11 +1,4 @@
-/**
- * API Service - GDGoC UGM Frontend
- * 
- * Modul ini bertanggung jawab untuk melakukan komunikasi jaringan (HTTP request)
- * ke backend API GDGoC UGM menggunakan native Fetch API.
- * 
- * Base URL: https://gdgoc-ugm-api.vercel.app/api
- */
+
 
 export const API_BASE_URL = "https://gdgoc-ugm-api.vercel.app/api";
 
