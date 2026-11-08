@@ -3,7 +3,10 @@ import Title from "../title";
 import arrow from "./../../assets/arrow.svg";
 import "../../App.css";
 
-function CtaBanner() {
+function CtaBanner({
+    buttonText = "Explore the overview",
+    buttonLink = "/overview"
+}) {
     return (
         <section className="cta-wrapper">
             <div className="cta-banner">
@@ -23,8 +26,8 @@ function CtaBanner() {
                 </div>
 
                 <div className="cta-right">
-                    <a href="/#overview" className="cta-button">
-                        Explore the overview
+                    <a href={buttonLink} className="cta-button">
+                        {buttonText}
                         <img src={arrow} alt="" />
                     </a>
                     <a href="/contact" className="cta-link">

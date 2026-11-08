@@ -1,7 +1,6 @@
-import react from "react";
+import React from "react";
 import Title from "../title";
-import arrow from "./../../assets/arrow.svg";
-import "../../App.css"
+import "../../App.css";
 
 function communityIntroduction() {
   return (

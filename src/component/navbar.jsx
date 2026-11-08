@@ -1,4 +1,4 @@
-import react from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
 import "./navbar.css";
 import logo from "../assets/logo.svg";
@@ -15,12 +15,13 @@ function Navbar() {
       <ul className="navbar-links">
         <li><NavLink to="/" end>Home</NavLink></li>
         <li><NavLink to="/about">About</NavLink></li>
-        <li><a href="/#overview">Overview</a></li>
+        <li><NavLink to="/overview">Overview</NavLink></li>
         <li><NavLink to="/contact">Contact</NavLink></li>
       </ul>
       <div className="navbar-button">
-        <button>Find your track<img src={arrow} alt="Arrow" /></button>
-        
+        <NavLink to="/overview">
+          <button>Find your track<img src={arrow} alt="Arrow" /></button>
+        </NavLink>
       </div>
     </nav>
   );
