@@ -1,6 +1,5 @@
 
 import React from "react";
-import Navbar from "../component/navbar";
 import Dashboard from "../component/LandingPages/dashboard";
 import CommunityPromises from "../component/LandingPages/communityPromises";
 import Right from "./../assets/rightdb.svg";
@@ -13,12 +12,10 @@ import FirstSteps from "../component/LandingPages/firstSteps";
 import InclusiveBanner from "../component/LandingPages/inclusiveBanner";
 import Faq from "../component/LandingPages/faq";
 import CtaBanner from "../component/LandingPages/ctaBanner";
-import Footer from "../component/footer";
 
 function Landing() {
     return (
         <>
-            <Navbar />
 
             <div className="dashboard-container">
                 
@@ -53,7 +50,6 @@ function Landing() {
                 <Faq />
             </div>
             <CtaBanner />
-            <Footer />
         </>
     );
 }

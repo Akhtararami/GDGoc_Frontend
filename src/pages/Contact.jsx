@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import Navbar from "../component/navbar";
 import { ContactHero, ContactTopics, ContactForm, ContactGuidance } from "../component/ContactPages/contactSections";
 import CtaBanner from "../component/LandingPages/ctaBanner";
-import Footer from "../component/footer";
 import { useFetch } from "../hooks/useFetch";
 import { getInquiryCategories } from "../services/api";
 import "../component/ContactPages/contact.css";
@@ -21,7 +19,6 @@ function Contact() {
 
     return (
         <div className="contact-page">
-            <Navbar />
 
             <ContactHero />
 
@@ -50,7 +47,6 @@ function Contact() {
                 buttonLink="/overview"
             />
 
-            <Footer />
         </div>
     );
 }
