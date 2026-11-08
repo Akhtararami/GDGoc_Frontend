@@ -162,3 +162,203 @@ body{
 .little img {
   width: 64px;
 }
+/* Community Promises */
+
+.community-promises {
+    width: 100%;
+}
+
+.community-promises ul {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    list-style: none;
+    padding: 20px 0;
+    margin: 0;
+    gap: 20px;
+}
+
+.community-promises li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.community-promises img {
+    width: 8px;
+}
+
+/* Tittle */
+.title-container{
+    display: flex;
+    flex-direction: column;
+}
+.title-top{
+    display: flex;
+    gap: 10px;
+}
+.title-top img{
+    width: 7px;
+}
+.title-top p{
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--info-text);
+}
+.title-top h1{
+    font-size: 48px;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.2;
+}
+.description-tittle a{
+    text-decoration: none;
+    color: var(--primary);
+    font-size: 16px;
+}
+
+.description-tittle img {
+    display: none;
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+ }
+.image-desc {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-color: #1967D2;
+    vertical-align: middle;
+    mask: url("/src/assets/arrow.svg") center / contain no-repeat;
+    -webkit-mask: url("/src/assets/arrow.svg") center / contain no-repeat;
+    transition: all 0.3s ease;
+    margin-left: 12px;
+}
+
+/* community intro */
+.community-introduction {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding: 68px 76px 96px;
+    box-sizing: border-box;
+    min-height: 640px;
+}
+
+.community-introduction .community-left,
+.community-introduction .community-right {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.community-introduction .community-left {
+    max-width: 520px;
+    align-items: flex-start;
+}
+
+.community-introduction .community-right {
+    max-width: 700px;
+    align-items: flex-start;
+}
+
+.community-introduction .title-container {
+    width: 100%;
+}
+
+.community-introduction .title-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.community-introduction .title-top img {
+    width: 10px;
+    height: 10px;
+    object-fit: contain;
+    display: block;
+    filter: brightness(0) saturate(100%) invert(32%) sepia(80%) saturate(3364%) hue-rotate(199deg) brightness(98%) contrast(99%);
+}
+
+.community-introduction .title-top p {
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--info-text);
+}
+
+.community-introduction .title-tittle {
+    margin: 0;
+    max-width: 470px;
+    color: var(--text);
+    font-size: clamp(52px, 4.8vw, 115px);
+    line-height: 0.9;
+    letter-spacing: -0.07em;
+    font-weight: 500;
+}
+
+.community-introduction .description-tittle {
+    margin-top: 36px;
+}
+
+.community-introduction .description-tittle a {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: #48a0ff;
+    font-size: 20px;
+    font-weight: 500;
+    text-decoration: none;
+    letter-spacing: -0.04em;
+}
+
+.community-introduction .image-desc {
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    background-color: #48a0ff;
+    mask: url("/src/assets/arrow.svg") center / contain no-repeat;
+    -webkit-mask: url("/src/assets/arrow.svg") center / contain no-repeat;
+    vertical-align: middle;
+}
+
+.community-introduction .community-right p {
+    margin: 0 0 28px;
+    max-width: 655px;
+    color: var(--info-text);
+    font-size: 21px;
+    line-height: 1.45;
+    letter-spacing: -0.05em;
+    font-weight: 400;
+}
+.community-introduction .community-right p span {
+    font-weight: 700;
+    color: var(--info-text);
+}
+.community-introduction .community-right ul {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.community-introduction .community-right li {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 22px;
+    background: var(--secondary);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 999px;
+    color: var(--info-text);
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 1;
+    list-style: none;
+}

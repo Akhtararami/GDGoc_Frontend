@@ -1,11 +1,12 @@
 
 import React from "react";
 import Navbar from "../component/navbar";
-import Dashboard from "../component/dashboard";
-
+import Dashboard from "../component/LandingPages/dashboard";
+import CommunityPromises from "../component/LandingPages/communityPromises";
 import Right from "./../assets/rightdb.svg";
 import communitycolors from "./../assets/communitycolors.svg";
 import marker from "./../assets/marker.svg";
+import DiscoverLearningLayout from "../component/LandingPages/discoverLearningLayout";
 
 function Landing() {
     return (
@@ -33,6 +34,8 @@ function Landing() {
                 />
 
             </div>
+            <CommunityPromises />
+            <DiscoverLearningLayout />
         </>
     );
 }

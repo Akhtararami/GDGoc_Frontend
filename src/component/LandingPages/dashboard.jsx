@@ -1,7 +1,7 @@
 
 import React from "react";
-import "./../App.css";
-import arrow from "./../assets/arrow.svg";
+import "./../../App.css";
+import arrow from "./../../assets/arrow.svg";
 
 function Dashboard({
   image,
