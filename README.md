@@ -1,16 +1,45 @@
-# React + Vite
+# GDGoC UGM — Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Website frontend untuk **Google Developer Groups on Campus, Universitas Gadjah Mada**.
+Dibangun dengan React (JSX) + Vite + React Router.
 
-Currently, two official plugins are available:
+## Menjalankan project
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+npm install
+npm run dev       # development server (http://localhost:5173)
+npm run build     # production build ke folder dist/
+npm run preview   # preview hasil build
+npm run lint      # oxlint
+```
 
-## React Compiler
+## Struktur
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```text
+src/
+├── assets/                      # SVG (logo, hero, track, marker, arrow, star)
+├── component/
+│   ├── navbar.jsx / navbar.css
+│   ├── footer.jsx / footer.css
+│   ├── title.jsx                # judul section reusable (label + title + deskripsi)
+│   └── LandingPages/
+│       ├── dashboard.jsx        # hero
+│       ├── communityPromises.jsx
+│       ├── communityIntroduction.jsx
+│       ├── trackdiscovery.jsx + Trackcard.jsx
+│       ├── lessWatching.jsx + learningCard.jsx
+│       ├── projectShowcase.jsx
+│       ├── firstSteps.jsx
+│       ├── inclusiveBanner.jsx
+│       ├── faq.jsx
+│       └── ctaBanner.jsx
+├── pages/                       # Landing, About, Contact
+├── App.jsx / App.css            # routing + styling landing page
+└── index.css
+```
 
-## Expanding the Oxlint configuration
+## Catatan
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and Oxlint's TypeScript related rules in your project.
+- Font: Google Sans Flex (dimuat dari Google Fonts lewat `@import`, butuh koneksi internet).
+- Halaman `About` dan `Contact` masih placeholder.
+- Referensi desain: `Landing - GDGoC UGM.png` (1440px). Breakpoint responsive: 1100px, 768px, 640px, 480px.

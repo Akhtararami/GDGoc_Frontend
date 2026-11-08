@@ -23,7 +23,7 @@ function communityIntroduction() {
                         rel="noopener noreferrer"
                     >
                         More about GDGoC UGM
-                        <span className="image-desc"></span>
+                        <span className="arrow-icon" aria-hidden="true"></span>
                     </a>
                 }
             />

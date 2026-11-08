@@ -32,12 +32,12 @@ function Dashboard({
         </p>
 
         <div className="button-container">
-          <button className="button">
+          <button className="button button-primary">
             {button}
             <span className="button-arrow"><img src={arrow} alt="" /></span>
           </button>
 
-          <button className="button">
+          <button className="button button-secondary">
             {buttonLink}
             <span className="button-arrow"><img src={arrow} alt="" /></span>
           </button>

@@ -7,6 +7,13 @@ import Right from "./../assets/rightdb.svg";
 import communitycolors from "./../assets/communitycolors.svg";
 import marker from "./../assets/marker.svg";
 import DiscoverLearningLayout from "../component/LandingPages/discoverLearningLayout";
+import LessWatching from "../component/LandingPages/lessWatching";
+import ProjectShowcase from "../component/LandingPages/projectShowcase";
+import FirstSteps from "../component/LandingPages/firstSteps";
+import InclusiveBanner from "../component/LandingPages/inclusiveBanner";
+import Faq from "../component/LandingPages/faq";
+import CtaBanner from "../component/LandingPages/ctaBanner";
+import Footer from "../component/footer";
 
 function Landing() {
     return (
@@ -36,6 +43,17 @@ function Landing() {
             </div>
             <CommunityPromises />
             <DiscoverLearningLayout />
+            <LessWatching />
+            <div className="landing-body">
+                <ProjectShowcase />
+                <FirstSteps />
+            </div>
+            <InclusiveBanner />
+            <div className="landing-body">
+                <Faq />
+            </div>
+            <CtaBanner />
+            <Footer />
         </>
     );
 }
